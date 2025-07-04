@@ -82,7 +82,7 @@ class EmailController extends BaseController
             $messagesAfterStore = $this->arrayFilter->filter($this->messagesAfterStore, "language", $request->language, ComparisonOperator::EQUAL->value);
             return $messagesAfterStore[0]["message"];
         } catch (\Throwable $th) {
-            Log::error($th->getMessage());
+            Log::error("Não encontramos a mensagem para ser enviada após a requisição {$th->getMessage()}");
             return $this->messagesAfterStore[0]["message"];
         }
     }
@@ -91,11 +91,13 @@ class EmailController extends BaseController
         try {
             $messagesToEmail = $this->arrayFilter->filter($this->messagesToEmail, "language", $request->language, ComparisonOperator::EQUAL->value);
             if (count($messagesToEmail) === 0) {
+                Log::info("Não encontramos a mensagem para ser enviada no corpo do email");
                 return $this->messagesToEmail[0]["message"];
             }
             return $messagesToEmail[0]["message"];
         } catch (\Throwable $th) {
-            Log::error($th->getMessage());
+            $error = $th->getMessage();
+            Log::error("$error");
             return $this->messagesToEmail[0]["message"];
         }
     }
@@ -108,17 +110,20 @@ class EmailController extends BaseController
                 'body' => 'required|string',
                 'language' => 'required|string'
             ]);
-
             $data = $this->getSendRequest($request);
             Mail::to($data["recipient_email"])->send(new WelcomeMail([
                 'name' => isset($data["name"]) ? $data["name"] : $data["recipient_email"],
                 'message' => $this->getMessageToEmail($request)
             ]));
+            Log::info("Email enviado para {$data['name']}");
             return response()->json(["message" => $this->getMessageSendResponse($request)], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['message' => $e->errors()], 422);
+            $erros = $e->errors();
+            Log::error("Houve erros de validação do corpo da requisição {$erros}");
+            return response()->json(['message' => $erros], 422);
         } catch (\Throwable $th) {
-            Log::error($th->getMessage());
+            $error = $th->getMessage();
+            Log::error("Houve erro na hora de enviar o email o erro é: $error");
             $this->store($this->getSendRequest($request));
             return response()->json(["message" => $this->getMessageSendResponse($request)], 200);
         }
