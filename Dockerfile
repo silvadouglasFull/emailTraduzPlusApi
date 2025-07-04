@@ -38,8 +38,12 @@ ARG uid=1000
 RUN useradd -G www-data,root -u $uid -d /home/$user $user \
     && mkdir -p /home/$user/.composer \
     && chown -R $user:$user /home/$user
+
 #Copia os arquivos
 COPY . /var/www
+
+#Dando permissões corretas
+RUN chown -R $user:www-data /var/www/storage && chmod -R 775 /var/www/storage
 
 # Define diretório de trabalho
 WORKDIR /var/www
