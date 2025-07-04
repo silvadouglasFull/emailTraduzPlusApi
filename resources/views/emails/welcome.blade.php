@@ -20,7 +20,7 @@
                     </tr>
                     <tr>
                         <td style="padding-top: 30px; text-align: center;">
-                            <a href="https://solucoesgreatwall.com" style="background-color: #081a48; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">Visit Site</a>
+                            <a href="https://solucoesgreatwall.com.br" style="background-color: #081a48; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">Visit Site</a>
                         </td>
                     </tr>
                     <tr>

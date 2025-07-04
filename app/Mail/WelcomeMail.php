@@ -17,6 +17,6 @@ class WelcomeMail extends Mailable
     {
         return $this->view('emails.welcome')
             ->with(['data' => $this->data])
-            ->subject('Welcome!');
+            ->subject("Message from Great Wall Soluções Linguisticas to {$this->data["name"]}");
     }
 }
