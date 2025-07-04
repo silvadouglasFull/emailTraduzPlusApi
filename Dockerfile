@@ -1,7 +1,7 @@
 FROM php:8.4-fpm
 
 # Arguments
-ARG user=appuser
+ARG user=email
 ARG uid=1000
 
 # Instala dependências básicas do sistema e extensões do PHP necessárias para Laravel + SQLite + e-mail
