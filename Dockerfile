@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     unzip \
     zip \
+    nano \ 
+    cron \
     libzip-dev \
     libonig-dev \
     libxml2-dev \
