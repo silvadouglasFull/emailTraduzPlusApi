@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Copia configuração do Nginx
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./docker-compose/nginx/travellist.conf /etc/nginx/nginx.conf
 
 # Copia o crontab e configura
 COPY crontab.txt /etc/cron.d/crontab
