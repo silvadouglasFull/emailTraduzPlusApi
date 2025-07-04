@@ -24,7 +24,6 @@ class ApiKeyMiddleware
     {
         $apiKey = $request->header('Api-Tey');
         $validApiKey = config('apikey.key');
-        dd($validApiKey, $apiKey);
         if (!$apiKey || $apiKey !== $validApiKey) {
             return response()->json([
                 'message' => 'Unauthorized. Invalid API Key.'
