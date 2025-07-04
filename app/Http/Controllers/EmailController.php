@@ -18,7 +18,7 @@ class EmailController extends BaseController
     private $messagesAfterStore = [
         [
 
-            "lenguage" => "en",
+            "language" => "en",
             "message" => "Message Sent Successfully"
         ],
         [
@@ -33,7 +33,7 @@ class EmailController extends BaseController
     private $messagesToEmail = [
         [
 
-            "lenguage" => "en",
+            "language" => "en",
             "message" => "Thank you for contacting Great Wall Linguistic Solutions, one of our representatives will contact you shortly. Best regards, see you soon!"
         ],
         [
@@ -90,6 +90,9 @@ class EmailController extends BaseController
     {
         try {
             $messagesToEmail = $this->arrayFilter->filter($this->messagesToEmail, "language", $request->language, ComparisonOperator::EQUAL->value);
+            if (count($messagesToEmail) === 0) {
+                return $this->messagesToEmail[0]["message"];
+            }
             return $messagesToEmail[0]["message"];
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
