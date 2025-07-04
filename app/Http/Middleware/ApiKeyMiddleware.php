@@ -22,7 +22,7 @@ class ApiKeyMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $apiKey = $request->header('Api-Tey');
+        $apiKey = $request->header('Api-Key');
         $validApiKey = config('apikey.key');
         if (!$apiKey || $apiKey !== $validApiKey) {
             return response()->json([
