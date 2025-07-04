@@ -1,16 +1,13 @@
-FROM php:8.4-fpm
+FROM php:8.2-fpm
 
-# Arguments
-ARG user=email
-ARG uid=1000
-
-# Instala dependências básicas do sistema e extensões do PHP necessárias para Laravel + SQLite + e-mail
+# Instala pacotes do sistema
 RUN apt-get update && apt-get install -y \
+    nginx \
+    cron \
     git \
     curl \
     unzip \
     zip \
-    cron \
     libzip-dev \
     libonig-dev \
     libxml2-dev \
@@ -21,29 +18,32 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_sqlite mbstring exif pcntl bcmath gd zip \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instala o Composer
+# Instala Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-#crontab
-# Copia seu crontab para o container
+# Copia configuração do Nginx
+COPY ./nginx.conf /etc/nginx/nginx.conf
+
+# Copia o crontab e configura
 COPY crontab.txt /etc/cron.d/crontab
+RUN chmod 0644 /etc/cron.d/crontab && crontab /etc/cron.d/crontab
 
-# Permissões do crontab
-RUN chmod 0644 /etc/cron.d/crontab
-
-# Aplica o crontab
-RUN crontab /etc/cron.d/crontab
-
-# Cria usuário para rodar os comandos do Laravel
-RUN useradd -G www-data,root -u $uid -d /home/$user $user && \
-    mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+# Cria usuário para rodar app (opcional)
+ARG user=email
+ARG uid=1000
+RUN useradd -G www-data,root -u $uid -d /home/$user $user \
+    && mkdir -p /home/$user/.composer \
+    && chown -R $user:$user /home/$user
 
 # Define diretório de trabalho
 WORKDIR /var/www
 
-# Define o usuário não-root
-USER $user
+# Expondo a porta esperada pelo Fly.io
+EXPOSE 8080
+
+# Script de inicialização do container
+CMD service cron start && \
+    php-fpm & \
+    nginx -g 'daemon off;'
