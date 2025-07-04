@@ -83,7 +83,7 @@ class EmailController extends BaseController
             return $messagesAfterStore[0]["message"];
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return $th->getMessage();
+            return $this->messagesAfterStore[0]["message"];
         }
     }
     function getMessageToEmail(Request $request): string

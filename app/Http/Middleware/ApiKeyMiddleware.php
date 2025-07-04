@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-use function Laravel\Prompts\error;
 
 /**
  * Middleware to validate API Key from request headers.
