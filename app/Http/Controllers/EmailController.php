@@ -8,13 +8,14 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
 use App\Utils\ArrayFilter\ComparisonOperator;
 use Illuminate\Support\Facades\Log;
-use App\Mail\WelcomeMail;
+use App\Mail\ViewMail;
 use Illuminate\Support\Facades\Mail;
 
 class EmailController extends BaseController
 {
     private EmailService $service;
     private ArrayFilterInterface $arrayFilter;
+    private string $MAIL_FROM_ADDRESS = '';
     private $messagesAfterStore = [
         [
 
@@ -49,6 +50,8 @@ class EmailController extends BaseController
     {
         $this->service = $service;
         $this->arrayFilter = $arrayFilter;
+        $MAIL_FROM_ADDRESS = env("MAIL_FROM_ADDRESS");
+        $this->MAIL_FROM_ADDRESS = $MAIL_FROM_ADDRESS;
     }
 
     public function index()
@@ -99,6 +102,16 @@ class EmailController extends BaseController
             return $this->messagesToEmail[0]["message"];
         }
     }
+    function getName(array $data)
+    {
+        return isset($data["name"]) ? $data["name"] : $data["recipient_email"];
+    }
+    function createMessageToMailFromAdress(array $data)
+    {
+        $MAIL_FROM_NAME = env("MAIL_FROM_NAME");
+        $name = $this->getName($data);
+        return "Hy " . $MAIL_FROM_NAME . " The visitor " . $name . " requested a quote for the following service: " . $data["body"];
+    }
     public function send(Request $request)
     {
         try {
@@ -110,9 +123,13 @@ class EmailController extends BaseController
             ]);
 
             $data = $this->getSendRequest($request);
-            Mail::to($data["recipient_email"])->send(new WelcomeMail([
-                'name' => isset($data["name"]) ? $data["name"] : $data["recipient_email"],
+            Mail::to($data["recipient_email"])->send(new ViewMail([
+                'name' => $this->getName($data),
                 'message' => $this->getMessageToEmail($request)
+            ]));
+            Mail::to($this->MAIL_FROM_ADDRESS)->send(new ViewMail([
+                'name' => $this->getName($data),
+                'message' => $this->createMessageToMailFromAdress($data),
             ]));
             return response()->json(["message" => $this->getMessageSendResponse($request)], 200);
         } catch (\Illuminate\Validation\ValidationException $e) {
