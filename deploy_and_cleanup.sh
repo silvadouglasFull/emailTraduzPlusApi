@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="emailtraduzplusapi"
+APP_NAME="solucoeslinguisticas"
 FLYCTL="$HOME/.fly/bin/flyctl"
 
 echo "Starting deploy..."

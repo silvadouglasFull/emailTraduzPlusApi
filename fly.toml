@@ -1,4 +1,9 @@
-app = 'emailtraduzplusapi'
+# fly.toml app configuration file generated for solucoeslinguisticas on 2025-07-07T17:26:07-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'solucoeslinguisticas'
 primary_region = 'gru'
 
 [build]
@@ -7,10 +12,10 @@ primary_region = 'gru'
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = "stop"
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 1
-  processes = ["app"]
+  processes = ['app']
 
 [[vm]]
-  size = "shared-cpu-1x"
+  size = 'shared-cpu-1x'
