@@ -4,7 +4,7 @@ namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
 
-class WelcomeMail extends Mailable
+class ViewMail extends Mailable
 {
     public $data;
 
@@ -15,7 +15,11 @@ class WelcomeMail extends Mailable
 
     public function build()
     {
-        return $this->view('emails.welcome')
+        $view = 'emails.welcome';
+        if (isset($this->data["view"])) {
+            $view = $this->data["view"];
+        }
+        return $this->view($view)
             ->with(['data' => $this->data])
             ->subject("Message from Great Wall Soluções Linguisticas to {$this->data["name"]}");
     }
