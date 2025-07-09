@@ -110,7 +110,7 @@ class EmailController extends BaseController
     {
         $MAIL_FROM_NAME = env("MAIL_FROM_NAME");
         $name = $this->getName($data);
-        return "Hy " . $MAIL_FROM_NAME . " The visitor " . $name . " requested a quote for the following service: " . $data["body"];
+        return "Hy " . $MAIL_FROM_NAME . " The visitor " . $name . " sent you a message: " . $data["body"];
     }
     public function send(Request $request)
     {
