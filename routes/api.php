@@ -26,11 +26,21 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     });
     $router->post('login', 'Auth\AuthController@login');
     $router->post('logout', 'Auth\AuthController@logout');
-    $router->post('register', 'UserController@register');
-    // $routerS->ITH AUTH
-    $router->group(['middleware' => 'auth:api'], function () use ($router) {
+    $router->post('token/refresh', 'Auth\AuthController@refresh');
+    $router->group(['prefix' => 'users', 'middleware' => 'auth:api'], function () use ($router) {
+        $router->get('', 'UserController@getUsers');
         $router->get('me', 'UserController@me');
-        $router->get('users', 'UserController@getUsers');
-        $router->post('refresh', 'Auth\AuthController@refresh');
+        $router->post('register', 'UserController@register');
+    });
+    $router->group([
+        'prefix' => 'pages',
+        'middleware' => 'auth:api',
+        'middleware' => 'auth.apikey'
+    ], function () use ($router) {
+        $router->get('/', 'PageController@index');
+        $router->get('/{id}', 'PageController@show');
+        $router->post('/send', 'PageController@send');
+        $router->put('/{id}', 'PageController@update');
+        $router->delete('/{id}', 'PageController@destroy');
     });
 });
