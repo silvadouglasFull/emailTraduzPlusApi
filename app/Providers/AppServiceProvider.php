@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserRequestInterface;
+use App\Repositories\UserRepository;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
 use App\Utils\ArrayFilter\ArrayFilter;
@@ -17,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(ArrayFilterInterface::class, function ($app) {
             return new ArrayFilter();
+        });
+        $this->app->bind(UserRepositoryInterface::class, function ($app) {
+            return new UserRepository();
+        });
+        $this->app->bind(UserRequestInterface::class, function ($app) {
+            return new UserRequest();
         });
     }
 }

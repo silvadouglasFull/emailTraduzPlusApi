@@ -24,4 +24,13 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->put('/{id}', 'EmailController@update');
         $router->delete('/{id}', 'EmailController@destroy');
     });
+    $router->post('login', 'Auth\AuthController@login');
+    $router->post('logout', 'Auth\AuthController@logout');
+    $router->post('register', 'UserController@register');
+    // $routerS->ITH AUTH
+    $router->group(['middleware' => 'auth:api'], function () use ($router) {
+        $router->get('me', 'UserController@me');
+        $router->get('users', 'UserController@getUsers');
+        $router->post('refresh', 'Auth\AuthController@refresh');
+    });
 });

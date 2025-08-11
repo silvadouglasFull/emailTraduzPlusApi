@@ -62,8 +62,8 @@ $app->singleton(
 $app->configure('app');
 $app->configure('apikey');
 $app->configure('mail');
-
-/*
+$app->configure('auth');
+/* in /var/www/vendor/illuminate/auth/AuthManager.php (line 99)
 |--------------------------------------------------------------------------
 | Register Middleware
 |--------------------------------------------------------------------------
@@ -74,16 +74,15 @@ $app->configure('mail');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
 $app->middleware([
+    App\Http\Middleware\JwtFromCookieMiddleware::class,
     App\Http\Middleware\CorsMiddleware::class
 ]);
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 $app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
     'auth.apikey' => App\Http\Middleware\ApiKeyMiddleware::class,
 ]);
 /*
@@ -104,6 +103,7 @@ $app->bind(
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 
 // $app->register(App\Providers\AuthServiceProvider::class);
@@ -123,7 +123,7 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__ . '/../routes/web.php';
+    require __DIR__ . '/../routes/api.php';
 });
 
 return $app;

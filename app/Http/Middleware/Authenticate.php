@@ -4,16 +4,17 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Authenticate
 {
     /**
-     * The authentication guard factory instance.
+     * The Authentication guard factory instance.
      *
      * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
-
     /**
      * Create a new middleware instance.
      *
@@ -33,12 +34,13 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+        try {
+            $JWTAuth = JWTAuth::parseToken()->authenticate();
+            return $next($request);
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Não autorizado, verifique suas credenciais"], 401);
         }
-
-        return $next($request);
     }
 }
