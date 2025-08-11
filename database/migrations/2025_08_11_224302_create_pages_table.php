@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 100)->unique();
+            $table->string('route', 100);
+            $table->string('name', 100)->nullable(true);
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
