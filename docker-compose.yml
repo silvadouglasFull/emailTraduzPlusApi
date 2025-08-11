@@ -3,22 +3,22 @@ services:
   app:
     build:
       args:
-        user: email
+        user: translationAgency
         uid: 1000
       context: ./
       dockerfile: Dockerfile
     image: php:8.4-fpm
-    container_name: email-app
+    container_name: translationAgency-app
     restart: unless-stopped
     working_dir: /var/www/
     volumes:
       - ./:/var/www
     networks:
-      - email
+      - translationAgency
 
   nginx:
     image: nginx:alpine
-    container_name: email-nginx
+    container_name: translationAgency-nginx
     restart: unless-stopped
     ports:
       - 8000:80
@@ -26,8 +26,8 @@ services:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
-      - email
+      - translationAgency
 
 networks:
-  email:
+  translationAgency:
     driver: bridge
