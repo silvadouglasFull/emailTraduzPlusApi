@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\RoleUser;
 use App\Services\SetJWTCookie;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -25,7 +26,7 @@ class AuthController extends BaseController
     public function login()
     {
         $credentials = request(['email', 'password']);
-        if (! $token = auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'error' => 'Unauthorized'
             ], 401);
@@ -56,7 +57,10 @@ class AuthController extends BaseController
             'message' => 'Logout with success!'
         ], 401);
     }
-
+    function getRole(): string
+    {
+        return RoleUser::where("users_id", auth()->id())->first()->role();
+    }
     /**
      * Undocumented function
      *
@@ -66,7 +70,7 @@ class AuthController extends BaseController
     protected function respondWithToken($token)
     {
         $expire = auth()->factory()->getTTL() * 60;
-        $cookie = new SetJWTCookie()->setcookie($token, $expire);
+        $cookie = SetJWTCookie::setcookie($token, $expire);
         return response()->json(["message" => "authorized user"])->cookie($cookie);
     }
 }

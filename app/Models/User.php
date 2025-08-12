@@ -43,4 +43,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return [];
     }
+    /**
+     * Relação 1:1 com RoleUser.
+     */
+    public function roleUser()
+    {
+        return $this->hasOne(RoleUser::class, 'users_id');
+    }
+
+    /**
+     * Acessor para facilitar acesso direto ao role.
+     */
+    protected $appends = ['role'];
+
+    public function getRoleAttribute()
+    {
+        // Verifica se relação está carregada para evitar query extra
+        if ($this->relationLoaded('roleUser') && $this->roleUser) {
+            return $this->roleUser->role; // ou o nome da coluna que guarda o papel
+        }
+
+        // Carrega se não estiver carregada (pode causar N+1 em lista)
+        return $this->roleUser ? $this->roleUser->role : null;
+    }
 }

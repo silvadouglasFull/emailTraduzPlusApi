@@ -34,12 +34,11 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     });
     $router->group([
         'prefix' => 'pages',
-        'middleware' => 'auth:api',
-        'middleware' => 'auth.apikey'
+        'middleware' => ['apikey', 'auth:api', 'checkrole:admin']
     ], function () use ($router) {
         $router->get('/', 'PageController@index');
         $router->get('/{id}', 'PageController@show');
-        $router->post('/send', 'PageController@send');
+        $router->post('', 'PageController@send');
         $router->put('/{id}', 'PageController@update');
         $router->delete('/{id}', 'PageController@destroy');
     });

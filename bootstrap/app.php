@@ -73,17 +73,14 @@ $app->configure('auth');
 | route or middleware that'll be assigned to some specific routes.
 |
 */
-
 $app->middleware([
+    App\Http\Middleware\CorsMiddleware::class,
     App\Http\Middleware\JwtFromCookieMiddleware::class,
-    App\Http\Middleware\CorsMiddleware::class
 ]);
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'auth.apikey' => App\Http\Middleware\ApiKeyMiddleware::class,
+    'apikey' => App\Http\Middleware\ApiKeyMiddleware::class,
+    'checkrole' => App\Http\Middleware\CheckRole::class,
 ]);
 /*
 |--------------------------------------------------------------------------

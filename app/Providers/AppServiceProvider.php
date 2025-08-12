@@ -6,8 +6,13 @@ use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRequestInterface;
 use App\Repositories\PageRepository;
 use App\Repositories\PageRepositoryInterface;
+use App\Repositories\RoleUserInterface;
+use App\Repositories\RoleUserRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
+use App\Services\CheckRoleAdminService;
+use App\Services\CheckRoleInterface;
+use App\Services\CheckRoleManagerService;
 use Illuminate\Support\ServiceProvider;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
 use App\Utils\ArrayFilter\ArrayFilter;
@@ -32,6 +37,15 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(PageRepositoryInterface::class, function ($app) {
             return new PageRepository();
+        });
+        $this->app->bind(RoleUserInterface::class, function ($app) {
+            return new RoleUserRepository();
+        });
+        $this->app->bind(CheckRoleInterface::class, function ($app) {
+            return new CheckRoleAdminService();
+        });
+        $this->app->bind(CheckRoleInterface::class, function ($app) {
+            return new CheckRoleManagerService();
         });
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class Authenticate
@@ -34,13 +35,14 @@ class Authenticate
      * @param  string|null  $guard
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $guard = null)
+    public function handle(Request $request, Closure $next)
     {
         try {
-            $JWTAuth = JWTAuth::parseToken()->authenticate();
+            JWTAuth::parseToken()->authenticate();
             return $next($request);
         } catch (\Throwable $th) {
-            return response()->json(["message" => "Não autorizado, verifique suas credenciais"], 401);
+            $message = $th->getMessage();
+            return response()->json(["message" => $message ?? "Não autorizado, verifique suas credenciais"], 401);
         }
     }
 }
