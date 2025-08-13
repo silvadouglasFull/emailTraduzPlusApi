@@ -4,7 +4,7 @@ namespace App\Services\Page;
 
 use App\Services\FilterFieldMapperInterface;
 
-class FilterFieldMapper implements FilterFieldMapperInterface
+class PagesFilterFieldMapper implements FilterFieldMapperInterface
 {
     public function map(array $filters): array
     {

@@ -3,52 +3,32 @@
 namespace App\Services\Page;
 
 use App\Repositories\PageRepositoryInterface;
-use App\Models\Page;
+use App\Services\AbstractService;
 use App\Services\FilterFieldMapperInterface;
 use App\Specifications\FormatBrazilianDateSpecification;
 
-class PageService
+class PageService extends AbstractService
 {
-    private PageRepositoryInterface $repository;
-    private FilterFieldMapperInterface $filterFieldMapper;
     public function __construct(
-        PageRepositoryInterface $repository,
-        FilterFieldMapperInterface $filterFieldMapper
-    ) {
-        $this->repository = $repository;
-        $this->filterFieldMapper = $filterFieldMapper;
-    }
-    /**
-     * @param array<string, mixed> $filters Optional simple filters
-     * @return array<int, array<string, mixed>>
-     */
-    public function getAll(array $filters = []): array
+        private PageRepositoryInterface $repository,
+        private FilterFieldMapperInterface $filterFieldMapper
+    ) {}
+
+    protected function repository(): PageRepositoryInterface
     {
-        return $this->repository->all(
-            filters: $this->filterFieldMapper->map($filters),
-            resultSpecs: [
-                new FormatBrazilianDateSpecification(['created_at', 'updated_at']),
-            ]
-        );
+        return $this->repository;
     }
 
-    public function getById(int $id, ?int $user_id): ?Page
+    protected function mapFilters(array $filters): array
     {
-        return $this->repository->find($id, $user_id);
+        // Aqui usamos explicitamente a interface
+        return $this->filterFieldMapper->map($filters);
     }
 
-    public function create(array $data): Page
+    protected function resultSpecifications(): array
     {
-        return $this->repository->create($data);
-    }
-
-    public function update(int $id, array $data): ?Page
-    {
-        return $this->repository->update($id, $data);
-    }
-
-    public function delete(int $id): bool
-    {
-        return $this->repository->delete($id);
+        return [
+            new FormatBrazilianDateSpecification(['created_at', 'updated_at']),
+        ];
     }
 }

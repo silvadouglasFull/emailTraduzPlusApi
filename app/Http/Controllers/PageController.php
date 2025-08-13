@@ -15,6 +15,7 @@ class PageController extends BaseController
 {
     private PageService $service;
     private array $strategies;
+
     public function __construct(PageService $service)
     {
         $this->service = $service;
@@ -29,32 +30,35 @@ class PageController extends BaseController
 
     public function index(Request $request)
     {
-
         $filters = FilterExtractor::extract($request, $this->strategies);
         return response()->json($this->service->getAll($filters));
     }
 
-    public function show(Request $request)
+    public function show(Request $request, $id)
     {
-        $user_id = $request->query('user_id');
-        $page = $this->service->getById((int)$user_id, null);
-        return $page ? response()->json($page) : response()->json(['message' => 'Not found'], 404);
+        $page = $this->service->getById((int)$id, $request->query('user_id'));
+        return $page
+            ? response()->json($page)
+            : response()->json(['message' => 'Not found'], 404);
     }
-    function store(array $data): bool
+
+    public function store(Request $request)
     {
         try {
-            $this->service->create($data);
-            return true;
+            $page = $this->service->create($request->all());
+            return response()->json($page, 201);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            return false;
+            return response()->json(['message' => 'Error creating page'], 500);
         }
     }
+
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $page = $this->service->update((int)$id, $data);
-        return $page ? response()->json($page) : response()->json(['message' => 'Not found'], 404);
+        $page = $this->service->update((int)$id, $request->all());
+        return $page
+            ? response()->json($page)
+            : response()->json(['message' => 'Not found'], 404);
     }
 
     public function destroy($id)

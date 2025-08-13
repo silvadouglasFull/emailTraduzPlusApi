@@ -18,7 +18,7 @@ use App\Services\CheckRoleAdminService;
 use App\Services\CheckRoleInterface;
 use App\Services\CheckRoleManagerService;
 use App\Services\FilterFieldMapperInterface;
-use App\Services\Page\FilterFieldMapper;
+use App\Services\Page\PagesFilterFieldMapper;
 use Illuminate\Support\ServiceProvider;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
 use App\Utils\ArrayFilter\ArrayFilter;
@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
             return new DateFilterStrategy();
         });
         $this->app->bind(FilterFieldMapperInterface::class, function ($app) {
-            return new FilterFieldMapper();
+            return new PagesFilterFieldMapper();
         });
     }
 }
