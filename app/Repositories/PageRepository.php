@@ -3,17 +3,19 @@
 namespace App\Repositories;
 
 use App\Models\Page;
+use App\Utils\PaginationHelper;
 
-class PageRepository implements PageRepositoryInterface
+class PageRepository extends BaseRepository implements PageRepositoryInterface
 {
-    private int $user_id;
-    public function __construct()
+
+    /**
+     * @param array<string, mixed> $filters Optional simple filters
+     * @param array<int, ResultSpecification>  $resultSpecs Result transformers (e.g., date formatting)
+     * @return array<int, array<string, mixed>>
+     */
+    public function all(array $filters = [], array $resultSpecs = []): array
     {
-        $this->user_id = auth()->user()->id;
-    }
-    public function all(): array
-    {
-        return Page::select(
+        $query = Page::select(
             'pages.title',
             'pages.route',
             'pages.name as page_name',
@@ -21,11 +23,26 @@ class PageRepository implements PageRepositoryInterface
             'pages.updated_at',
             'users.name',
         )
-            ->join('users', 'users.id', '=', 'pages.user_id')
-            ->where("user_id", $this->user_id)->get()->toArray();
+            ->join('users', 'users.id', '=', 'pages.user_id');
+        foreach ($filters as $field => $value) {
+            // Whitelist to avoid invalid columns / injection
+            if (in_array($field, ['pages.title', 'pages.route', 'pages.user_id', 'page_name', 'pages.created_at', 'pages.updated_at', 'users.name'], true)) {
+                $query->when(is_string($value), function ($query) use ($field, $value) {
+                    return $query->where($field, "LIKE", "%$value%");
+                })
+                    ->when(is_numeric($value), function ($query) use ($field, $value) {
+                        return $query->where($field, $value);
+                    });
+            }
+        }
+        $result = $query->paginate()->toArray();
+        return array_merge(
+            ["data" => $this->applyResultSpecs($result["data"], $resultSpecs)],
+            PaginationHelper::extract($result)
+        );
     }
 
-    public function find(int $id): ?Page
+    public function find(int $id, ?int $user_id): ?Page
     {
         return Page::select(
             'pages.title',
@@ -35,19 +52,30 @@ class PageRepository implements PageRepositoryInterface
             'pages.updated_at',
             'users.name',
         )
-            ->join('users', 'users.id', '=', 'pages.user_id')
-            ->where("user_id", $this->user_id)->first();
+            ->join(
+                'users',
+                'users.id',
+                '=',
+                'pages.user_id'
+            )
+            ->when(is_numeric($user_id), function ($query) use ($user_id) {
+                return $query->where(
+                    'pages.user_id',
+                    '=',
+                    $user_id
+                );
+            })
+            ->first();
     }
 
     public function create(array $data): Page
     {
-        $data["user_id"] = $this->user_id;
         return Page::create($data);
     }
 
     public function update(int $id, array $data): ?Page
     {
-        $Page = Page::where("user_id", $this->user_id)->first($id);
+        $Page = Page::find($id);
         if (!$Page) {
             return null;
         }
@@ -58,7 +86,7 @@ class PageRepository implements PageRepositoryInterface
 
     public function delete(int $id): bool
     {
-        $Page = Page::where("user_id", $this->user_id)->first($id);
+        $Page = Page::find($id);
         return $Page ? $Page->delete() : false;
     }
 }

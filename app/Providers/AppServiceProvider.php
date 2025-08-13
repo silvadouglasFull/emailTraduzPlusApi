@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Filters\DateFilterStrategy;
+use App\Filters\FilterStrategyInterface;
+use App\Filters\IntegerFilterStrategy;
+use App\Filters\StringFilterStrategy;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRequestInterface;
 use App\Repositories\PageRepository;
@@ -13,6 +17,8 @@ use App\Repositories\UserRepositoryInterface;
 use App\Services\CheckRoleAdminService;
 use App\Services\CheckRoleInterface;
 use App\Services\CheckRoleManagerService;
+use App\Services\FilterFieldMapperInterface;
+use App\Services\Page\FilterFieldMapper;
 use Illuminate\Support\ServiceProvider;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
 use App\Utils\ArrayFilter\ArrayFilter;
@@ -46,6 +52,18 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(CheckRoleInterface::class, function ($app) {
             return new CheckRoleManagerService();
+        });
+        $this->app->bind(FilterStrategyInterface::class, function ($app) {
+            return new IntegerFilterStrategy();
+        });
+        $this->app->bind(FilterStrategyInterface::class, function ($app) {
+            return new StringFilterStrategy();
+        });
+        $this->app->bind(FilterStrategyInterface::class, function ($app) {
+            return new DateFilterStrategy();
+        });
+        $this->app->bind(FilterFieldMapperInterface::class, function ($app) {
+            return new FilterFieldMapper();
         });
     }
 }
