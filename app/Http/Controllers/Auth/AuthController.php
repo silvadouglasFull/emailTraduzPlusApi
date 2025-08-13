@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\RoleUser;
 use App\Services\SetJWTCookie;
 use Laravel\Lumen\Routing\Controller as BaseController;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends BaseController
 {
@@ -70,7 +71,6 @@ class AuthController extends BaseController
     protected function respondWithToken($token)
     {
         $expire = auth()->factory()->getTTL() * 60;
-        $cookie = SetJWTCookie::setcookie($token, $expire);
-        return response()->json(["message" => "authorized user"])->cookie($cookie);
+        return response()->json(["message" => "authorized user"])->withCookie(SetJWTCookie::setCookie($token, $expire));
     }
 }

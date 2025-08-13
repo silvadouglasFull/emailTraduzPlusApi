@@ -13,11 +13,9 @@ class SetJWTCookie
             $token,
             $expire,
             '/',
-            null,
-            true, // Secure
-            true, // HttpOnly
-            false,
-            Cookie::SAMESITE_STRICT
+            str_replace("http://", "", env("APP_URL")),
+            true,
+            true
         );
     }
 }
