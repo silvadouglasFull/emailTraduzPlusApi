@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\CheckRole;
 
 use App\Repositories\RoleUserInterface;
 use App\Models\RoleUser;

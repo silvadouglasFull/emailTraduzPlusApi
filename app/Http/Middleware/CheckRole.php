@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\CheckRoleFactory;
+use App\Services\CheckRole\CheckRoleFactory;
 use Closure;
 use Illuminate\Http\Response;
 

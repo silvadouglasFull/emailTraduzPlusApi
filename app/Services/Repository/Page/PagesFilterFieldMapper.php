@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Page;
+namespace App\Services\Repository\Page;
 
 use App\Services\FilterFieldMapperInterface;
 

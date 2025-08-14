@@ -6,7 +6,7 @@ use App\Filters\DateFilterStrategy;
 use App\Filters\FilterExtractor;
 use App\Filters\IntegerFilterStrategy;
 use App\Filters\StringFilterStrategy;
-use App\Services\Page\PageService;
+use App\Services\Repository\Page\PageService;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;

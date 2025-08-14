@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RoleUserService;
+use App\Services\CheckRole\RoleUserService;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Log;
