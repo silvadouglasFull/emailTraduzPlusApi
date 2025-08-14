@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\RoleUser;
-use App\Services\SetJWTCookie;
+use App\Services\Cookie\SetJWTCookie;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends BaseController
 {

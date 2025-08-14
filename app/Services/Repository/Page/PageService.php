@@ -3,8 +3,8 @@
 namespace App\Services\Repository\Page;
 
 use App\Repositories\PageRepositoryInterface;
-use App\Services\AbstractService;
-use App\Services\FilterFieldMapperInterface;
+use App\Services\Repository\AbstractService;
+use App\Services\Repository\FilterFieldMapperInterface;
 use App\Specifications\FormatBrazilianDateSpecification;
 
 class PageService extends AbstractService

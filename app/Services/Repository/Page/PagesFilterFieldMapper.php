@@ -2,7 +2,7 @@
 
 namespace App\Services\Repository\Page;
 
-use App\Services\FilterFieldMapperInterface;
+use App\Services\Repository\FilterFieldMapperInterface;
 
 class PagesFilterFieldMapper implements FilterFieldMapperInterface
 {

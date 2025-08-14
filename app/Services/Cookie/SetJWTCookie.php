@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Cookie;
 
 use Symfony\Component\HttpFoundation\Cookie;
 

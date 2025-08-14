@@ -17,7 +17,7 @@ use App\Repositories\UserRepositoryInterface;
 use App\Services\CheckRole\CheckRoleAdminService;
 use App\Services\CheckRole\CheckRoleInterface;
 use App\Services\CheckRole\CheckRoleManagerService;
-use App\Services\FilterFieldMapperInterface;
+use App\Services\Repository\FilterFieldMapperInterface;
 use App\Services\Repository\Page\PagesFilterFieldMapper;
 use Illuminate\Support\ServiceProvider;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
