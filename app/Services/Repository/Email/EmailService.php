@@ -3,39 +3,32 @@
 namespace App\Services\Repository\Email;
 
 use App\Repositories\Email\EmailRepositoryInterface;
-use App\Models\Email;
+use App\Services\Repository\AbstractService;
+use App\Services\Repository\FilterFieldMapperInterface;
+use App\Specifications\FormatBrazilianDateSpecification;
 
-class EmailService
+class EmailService extends AbstractService
 {
-    private EmailRepositoryInterface $repository;
+    public function __construct(
+        private EmailRepositoryInterface $repository,
+        private FilterFieldMapperInterface $filterFieldMapper
+    ) {}
 
-    public function __construct(EmailRepositoryInterface $repository)
+    protected function repository(): EmailRepositoryInterface
     {
-        $this->repository = $repository;
+        return $this->repository;
     }
 
-    public function getAll(): array
+    protected function mapFilters(array $filters): array
     {
-        return $this->repository->all();
+        // Aqui usamos explicitamente a interface
+        return $this->filterFieldMapper->map($filters);
     }
 
-    public function getById(int $id): ?Email
+    protected function resultSpecifications(): array
     {
-        return $this->repository->find($id);
-    }
-
-    public function create(array $data): Email
-    {
-        return $this->repository->create($data);
-    }
-
-    public function update(int $id, array $data): ?Email
-    {
-        return $this->repository->update($id, $data);
-    }
-
-    public function delete(int $id): bool
-    {
-        return $this->repository->delete($id);
+        return [
+            new FormatBrazilianDateSpecification(['created_at', 'updated_at']),
+        ];
     }
 }

@@ -18,11 +18,12 @@ $router->get('/', function () use ($router) {
 });
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->group(['prefix' => 'emails', 'middleware' => 'apikey'], function () use ($router) {
-        $router->get('/', 'EmailController@index');
-        $router->get('/{id}', 'EmailController@show');
-        $router->post('/send', 'EmailController@send');
-        $router->put('/{id}', 'EmailController@update');
-        $router->delete('/{id}', 'EmailController@destroy');
+        $router->post('/send', 'Email\SendEmailController@send');
+        $router->get('/', 'Email\EmailController@index');
+        $router->get('/{id}', 'Email\EmailController@show');
+        $router->post('', 'Email\EmailController@store');
+        $router->put('/{id}', 'Email\EmailController@update');
+        $router->delete('/{id}', 'Email\EmailController@destroy');
     });
     $router->post('login', 'Auth\AuthController@login');
     $router->post('logout', 'Auth\AuthController@logout');

@@ -2,7 +2,7 @@
 
 namespace App\Services\Repository;
 
-use App\Services\FilterFieldMapperInterface;
+use App\Services\Repository\FilterFieldMapperInterface;
 
 /**
  * @template TFilterMapper of FilterFieldMapperInterface

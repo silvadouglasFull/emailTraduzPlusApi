@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Email;
 
-use App\Services\Repository\Email\EmailService;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Utils\ArrayFilter\ArrayFilterInterface;
@@ -11,9 +10,8 @@ use Illuminate\Support\Facades\Log;
 use App\Mail\ViewMail;
 use Illuminate\Support\Facades\Mail;
 
-class EmailController extends BaseController
+class SendEmailController extends BaseController
 {
-    private EmailService $service;
     private ArrayFilterInterface $arrayFilter;
     private string $MAIL_FROM_ADDRESS = '';
     private $messagesAfterStore = [
@@ -46,33 +44,11 @@ class EmailController extends BaseController
             "message" => "Obrigado por entrar em contato com a Great Wall Soluções Linguisticas, em breve uns de nossos representantes irá entrar em contato com você. Abraços, até mais!"
         ]
     ];
-    public function __construct(EmailService $service, ArrayFilterInterface $arrayFilter)
+    public function __construct(ArrayFilterInterface $arrayFilter)
     {
-        $this->service = $service;
         $this->arrayFilter = $arrayFilter;
         $MAIL_FROM_ADDRESS = env("MAIL_FROM_ADDRESS");
         $this->MAIL_FROM_ADDRESS = $MAIL_FROM_ADDRESS;
-    }
-
-    public function index()
-    {
-        return response()->json($this->service->getAll());
-    }
-
-    public function show($id)
-    {
-        $email = $this->service->getById((int)$id);
-        return $email ? response()->json($email) : response()->json(['message' => 'Not found'], 404);
-    }
-    function store(array $data): bool
-    {
-        try {
-            $this->service->create($data);
-            return true;
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-            return false;
-        }
     }
     function getSendRequest(Request $request): array
     {
@@ -136,23 +112,7 @@ class EmailController extends BaseController
             return response()->json(['message' => $e->errors()], 422);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
-            $this->store($this->getSendRequest($request));
             return response()->json(["message" => $this->getMessageSendResponse($request)], 200);
         }
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        $data = $request->only(['recipient_email', 'subject', 'body', 'status', 'sent_at', 'error_message']);
-        $email = $this->service->update((int)$id, $data);
-        return $email ? response()->json($email) : response()->json(['message' => 'Not found'], 404);
-    }
-
-    public function destroy($id)
-    {
-        return $this->service->delete((int)$id)
-            ? response()->json(['message' => 'Deleted successfully'])
-            : response()->json(['message' => 'Not found'], 404);
     }
 }

@@ -40,7 +40,7 @@ $app->withEloquent();
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    App\Exceptions\Handler::class,
 );
 
 $app->singleton(
@@ -94,6 +94,12 @@ $app->routeMiddleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\ArrayFilter\ArrayFilterProvider::class);
+$app->register(App\Providers\CheckRole\CheckRoleProvider::class);
+$app->register(App\Providers\Repository\Email\EmailRepositoryProvider::class);
+$app->register(App\Providers\Repository\Page\PageRepositoryProvider::class);
+$app->register(App\Providers\Repository\User\UserRepositoryProvider::class);
+$app->register(App\Providers\Strategy\FilterStrategyProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);

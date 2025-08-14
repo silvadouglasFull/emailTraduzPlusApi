@@ -4,6 +4,7 @@ namespace App\Repositories\Pages;
 
 use App\Models\Page;
 use App\Repositories\BaseRepository;
+use App\Utils\Dates\DateValidator;
 use App\Utils\PaginationHelper;
 
 class PageRepository extends BaseRepository implements PageRepositoryInterface
@@ -28,7 +29,7 @@ class PageRepository extends BaseRepository implements PageRepositoryInterface
         foreach ($filters as $field => $value) {
             // Whitelist to avoid invalid columns / injection
             if (in_array($field, ['pages.title', 'pages.route', 'pages.user_id', 'page_name', 'pages.created_at', 'pages.updated_at', 'users.name'], true)) {
-                $query->when(is_string($value), function ($query) use ($field, $value) {
+                $query->when(is_string($value) && (!DateValidator::isValidDate($value)), function ($query) use ($field, $value) {
                     return $query->where($field, "LIKE", "%$value%");
                 })
                     ->when(is_numeric($value), function ($query) use ($field, $value) {

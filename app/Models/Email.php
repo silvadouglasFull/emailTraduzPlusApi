@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon|null $sent_at
  * @property string|null $error_message
+ * @property int $user_id
  */
 class Email extends Model
 {
@@ -27,7 +28,8 @@ class Email extends Model
         'body',
         'status',
         'sent_at',
-        'error_message'
+        'error_message',
+        'user_id'
     ];
     protected $casts = [
         'sent_at' => 'datetime',
