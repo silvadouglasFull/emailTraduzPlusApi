@@ -92,10 +92,6 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
-$app->bind(
-    App\Repositories\EmailRepositoryInterface::class,
-    App\Repositories\EmailRepository::class
-);
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);

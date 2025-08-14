@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Pages;
 
 use App\Models\Page;
+use App\Repositories\BaseRepository;
 use App\Utils\PaginationHelper;
 
 class PageRepository extends BaseRepository implements PageRepositoryInterface

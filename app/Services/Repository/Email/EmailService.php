@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Repository\Email;
 
-use App\Repositories\EmailRepositoryInterface;
+use App\Repositories\Email\EmailRepositoryInterface;
 use App\Models\Email;
 
 class EmailService

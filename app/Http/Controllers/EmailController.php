@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\EmailService;
+use App\Services\Repository\Email\EmailService;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Utils\ArrayFilter\ArrayFilterInterface;

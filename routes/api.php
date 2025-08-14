@@ -17,7 +17,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->group(['prefix' => 'emails', 'middleware' => 'auth.apikey'], function () use ($router) {
+    $router->group(['prefix' => 'emails', 'middleware' => 'apikey'], function () use ($router) {
         $router->get('/', 'EmailController@index');
         $router->get('/{id}', 'EmailController@show');
         $router->post('/send', 'EmailController@send');

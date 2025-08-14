@@ -2,7 +2,7 @@
 
 namespace App\Services\Repository\Page;
 
-use App\Repositories\PageRepositoryInterface;
+use App\Repositories\Pages\PageRepositoryInterface;
 use App\Services\Repository\AbstractService;
 use App\Services\Repository\FilterFieldMapperInterface;
 use App\Specifications\FormatBrazilianDateSpecification;

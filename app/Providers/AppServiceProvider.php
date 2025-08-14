@@ -8,8 +8,10 @@ use App\Filters\IntegerFilterStrategy;
 use App\Filters\StringFilterStrategy;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRequestInterface;
-use App\Repositories\PageRepository;
-use App\Repositories\PageRepositoryInterface;
+use App\Repositories\Email\EmailRepository;
+use App\Repositories\Email\EmailRepositoryInterface;
+use App\Repositories\Pages\PageRepository;
+use App\Repositories\Pages\PageRepositoryInterface;
 use App\Repositories\RoleUserInterface;
 use App\Repositories\RoleUserRepository;
 use App\Repositories\UserRepository;
@@ -64,6 +66,9 @@ class AppServiceProvider extends ServiceProvider
         });
         $this->app->bind(FilterFieldMapperInterface::class, function ($app) {
             return new PagesFilterFieldMapper();
+        });
+        $this->app->bind(EmailRepositoryInterface::class, function ($app) {
+            return new EmailRepository();
         });
     }
 }
