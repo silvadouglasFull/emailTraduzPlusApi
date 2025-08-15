@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests\Email;
 
-use App\Http\Requests\Request;
+use App\Http\Requests\AbstractFormRequest as FormRequest;
+use App\Http\Requests\RequestInterface;
 
-class EmailUpdateRequest extends Request
+class EmailUpdateRequest extends FormRequest implements RequestInterface
 {
     /**
      * Determine if the user is authorized to make this request.

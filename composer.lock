@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f180dab1b0c637fed04a509f2ede1ba9",
+    "content-hash": "f64389ff4f49366fb8b0d0e1c856185a",
     "packages": [
         {
             "name": "brick/math",
@@ -3022,6 +3022,59 @@
                 }
             ],
             "time": "2022-12-11T20:36:23+00:00"
+        },
+        {
+            "name": "lphilippo/laravel-castable-form-request",
+            "version": "0.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lphilippo/laravel-castable-form-request.git",
+                "reference": "1ff4b76bd0fc2d3b8bdacc7c8f1ae8eb27162222"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lphilippo/laravel-castable-form-request/zipball/1ff4b76bd0fc2d3b8bdacc7c8f1ae8eb27162222",
+                "reference": "1ff4b76bd0fc2d3b8bdacc7c8f1ae8eb27162222",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": ">= 8.0",
+                "illuminate/support": ">= 8.0",
+                "illuminate/validation": ">= 8.0",
+                "php": ">= 7.4"
+            },
+            "require-dev": {
+                "laravel/framework": ">= 8.0",
+                "phpunit/phpunit": ">= 9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LPhilippo\\CastableFormRequest\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LPhilippo\\CastableFormRequest\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Leander Philippo"
+                }
+            ],
+            "description": "Laravel/Lumen package to add Eloquent-like casts to Form Requests.",
+            "support": {
+                "issues": "https://github.com/lphilippo/laravel-castable-form-request/issues",
+                "source": "https://github.com/lphilippo/laravel-castable-form-request/tree/0.3.3"
+            },
+            "time": "2023-09-13T08:32:26+00:00"
         },
         {
             "name": "monolog/monolog",

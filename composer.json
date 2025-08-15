@@ -14,6 +14,7 @@
         "illuminate/mail": "^10.48",
         "laravel/helpers": "^1.7",
         "laravel/lumen-framework": "^10.0",
+        "lphilippo/laravel-castable-form-request": "^0.3.3",
         "tymon/jwt-auth": "^2.2"
     },
     "require-dev": {

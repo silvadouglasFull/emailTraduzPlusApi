@@ -17,7 +17,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->group(['prefix' => 'emails', 'middleware' => 'apikey'], function () use ($router) {
+    $router->group([
+        'prefix' => 'emails',
+        'middleware' => ['apikey', 'auth:api']
+    ], function () use ($router) {
         $router->post('/send', 'Email\SendEmailController@send');
         $router->get('/', 'Email\EmailController@index');
         $router->get('/{id}', 'Email\EmailController@show');
@@ -37,10 +40,10 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         'prefix' => 'pages',
         'middleware' => ['apikey', 'auth:api', 'checkrole:admin']
     ], function () use ($router) {
-        $router->get('/', 'PageController@index');
-        $router->get('/{id}', 'PageController@show');
-        $router->post('', 'PageController@send');
-        $router->put('/{id}', 'PageController@update');
-        $router->delete('/{id}', 'PageController@destroy');
+        $router->get('/', 'Page\PageController@index');
+        $router->get('/{id}', 'Page\PageController@show');
+        $router->post('', 'Page\PageController@store');
+        $router->put('/{id}', 'Page\PageController@update');
+        $router->delete('/{id}', 'Page\PageController@destroy');
     });
 });

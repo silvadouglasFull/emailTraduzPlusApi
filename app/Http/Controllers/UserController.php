@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequestInterface;
+use App\Http\Requests\RequestInterface;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use Exception;
@@ -12,10 +12,10 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 class UserController extends BaseController
 {
     private UserRepositoryInterface $userRepository;
-    private UserRequestInterface $userRequest;
+    private RequestInterface $userRequest;
     public function __construct(
         UserRepositoryInterface $userRepository,
-        UserRequestInterface $userRequest
+        RequestInterface $userRequest
     ) {
         $this->userRepository  = $userRepository;
         $this->userRequest = $userRequest;
