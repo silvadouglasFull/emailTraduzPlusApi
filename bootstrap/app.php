@@ -104,9 +104,8 @@ $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
-
+$app->register(App\Providers\Request\Email\EmailRequestProvider::class);
+$app->register(App\Providers\Request\Pages\PagesRequestProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
