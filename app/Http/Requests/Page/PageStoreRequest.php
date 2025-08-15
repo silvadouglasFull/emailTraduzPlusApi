@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Page;
 
-use App\Http\Requests\AbstractFormRequest as FormRequest;
 use App\Http\Requests\RequestInterface;
+use Anik\Form\FormRequest as FormRquest;
 
-class PageStoreRequest extends FormRequest implements RequestInterface
+class PageStoreRequest extends FormRquest implements RequestInterface
 {
     public function authorize(): bool
     {
@@ -31,5 +31,14 @@ class PageStoreRequest extends FormRequest implements RequestInterface
             'name.required'  => 'O name é obrigatório',
             'user_id.exists' => 'O usuário fornecido não existe.',
         ];
+    }
+    /**
+     * Define os valores padrão para os atributos do DTO.
+     *
+     * @return array
+     */
+    public function defaults(): array
+    {
+        return [];
     }
 }

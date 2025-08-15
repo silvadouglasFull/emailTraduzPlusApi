@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Page;
 
-use App\Http\Requests\AbstractFormRequest as FormRequest;
-use Illuminate\Validation\Rule;
 use App\Http\Requests\RequestInterface;
+use Anik\Form\FormRequest as FormRquest;
 
-class PageUpdateRequest extends FormRequest implements RequestInterface
+class PageUpdateRequest extends FormRquest implements RequestInterface
 {
     public function authorize(): bool
     {
@@ -15,23 +14,12 @@ class PageUpdateRequest extends FormRequest implements RequestInterface
 
     public function rules(): array
     {
-        $pageId = $this->route('id'); // Supondo que na rota está `page/{id}`
 
         return [
-            'title' => [
-                'string',
-                'min:5',
-                'max:100',
-                Rule::unique('pages', 'title')->ignore($pageId),
-            ],
-            'route' => [
-                'string',
-                'min:5',
-                'max:100',
-                Rule::unique('pages', 'route')->ignore($pageId),
-            ],
+            'title' => 'string|min:5|max:100|unique:pages,title',
+            'route' => 'string|min:5|max:100',
             'name'  => 'string|min:5|max:100',
-            'user_id' => 'required|integer|exists:users,id',
+            'user_id' => 'integer|exists:users,id',
         ];
     }
 
@@ -42,5 +30,14 @@ class PageUpdateRequest extends FormRequest implements RequestInterface
             'route.unique' => 'Já existe uma página com esse route.',
             'user_id.exists' => 'O usuário fornecido não existe.',
         ];
+    }
+    /**
+     * Define os valores padrão para os atributos do DTO.
+     *
+     * @return array
+     */
+    public function defaults(): array
+    {
+        return [];
     }
 }

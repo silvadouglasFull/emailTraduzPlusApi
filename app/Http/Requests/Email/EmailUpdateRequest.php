@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Email;
 
-use App\Http\Requests\AbstractFormRequest as FormRequest;
 use App\Http\Requests\RequestInterface;
+use Anik\Form\FormRequest as FormRequest;
 
 class EmailUpdateRequest extends FormRequest implements RequestInterface
 {
@@ -49,5 +49,14 @@ class EmailUpdateRequest extends FormRequest implements RequestInterface
             'subject.required' => 'O assunto é obrigatório.',
             'body.required' => 'O corpo do e-mail não pode estar vazio.',
         ];
+    }
+    /**
+     * Define os valores padrão para os atributos do DTO.
+     *
+     * @return array
+     */
+    public function defaults(): array
+    {
+        return [];
     }
 }

@@ -51,7 +51,10 @@ class PageController extends BaseController
         try {
             $validated = $request->validated();
             $page = $this->service->create($validated);
-            return response()->json($page, 201);
+            return response()->json([
+                "message" => "Data saved successfully",
+                "data" => $page
+            ], 201);
         } catch (ValidationException $e) {
             return response()->json([
                 'message' => 'Validation failed.',

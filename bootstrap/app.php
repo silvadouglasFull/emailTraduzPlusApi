@@ -103,8 +103,7 @@ $app->register(App\Providers\Strategy\FilterStrategyProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-$app->register(LPhilippo\CastableFormRequest\ServiceProvider::class);
-
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 

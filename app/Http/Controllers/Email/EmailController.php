@@ -50,8 +50,8 @@ class EmailController extends BaseController
     public function store(EmailStoreRequest $request)
     {
         try {
-            $validatedData = $request->validate();
-            $email = $this->service->create($validatedData ?? []);
+            $validatedData = $request->validated();
+            $email = $this->service->create($validatedData);
             return response()->json($email, 201);
         } catch (ValidationException $e) {
             return response()->json([
@@ -67,12 +67,19 @@ class EmailController extends BaseController
     public function update(EmailUpdateRequest $request, $id)
     {
         try {
-            $email = $this->service->update((int)$id, $request->all());
+            $validatedData = $request->validated();
+            $email = $this->service->update((int)$id, $validatedData);
             return $email
                 ? response()->json($email)
                 : response()->json(['message' => 'Not found'], 404);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed.',
+                'errors' => $e->errors()
+            ], 422);
         } catch (\Throwable $th) {
-            //throw $th;
+            Log::error($th->getMessage());
+            return response()->json(['message' => 'Error creating email'], 500);
         }
     }
 

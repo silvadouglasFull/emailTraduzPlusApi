@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\Email;
 
-use App\Http\Requests\AbstractFormRequest as FormRequest;
 use App\Http\Requests\RequestInterface;
+use Anik\Form\FormRequest as FormRequest;
 
 class EmailStoreRequest extends FormRequest implements RequestInterface
 {
@@ -51,5 +51,14 @@ class EmailStoreRequest extends FormRequest implements RequestInterface
             'user_id.required' => 'A identificação do usuário é necessária.',
             'user_id.exists' => 'O usuário fornecido não existe.',
         ];
+    }
+    /**
+     * Define os valores padrão para os atributos do DTO.
+     *
+     * @return array
+     */
+    public function defaults(): array
+    {
+        return [];
     }
 }
