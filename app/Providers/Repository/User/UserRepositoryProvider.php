@@ -2,10 +2,8 @@
 
 namespace App\Providers\Repository\User;
 
-use App\Http\Requests\UserRequest;
-use App\Http\Requests\UserRequestInterface;
-use App\Repositories\UserRepository;
-use App\Repositories\UserRepositoryInterface;
+use App\Repositories\User\UserRepository;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class UserRepositoryProvider extends ServiceProvider
@@ -19,9 +17,6 @@ class UserRepositoryProvider extends ServiceProvider
     {
         $this->app->bind(UserRepositoryInterface::class, function ($app) {
             return new UserRepository();
-        });
-        $this->app->bind(UserRequestInterface::class, function ($app) {
-            return new UserRequest();
         });
     }
 }

@@ -99,6 +99,8 @@ $app->register(App\Providers\CheckRole\CheckRoleProvider::class);
 $app->register(App\Providers\Repository\Email\EmailRepositoryProvider::class);
 $app->register(App\Providers\Repository\Page\PageRepositoryProvider::class);
 $app->register(App\Providers\Repository\User\UserRepositoryProvider::class);
+$app->register(App\Providers\Repository\RoleUser\RoleUserServiceProvider::class);
+$app->register(App\Providers\Repository\User\UserRepositoryProvider::class);
 $app->register(App\Providers\Strategy\FilterStrategyProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
@@ -106,6 +108,9 @@ $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
 $app->register(App\Providers\Request\Email\EmailRequestProvider::class);
 $app->register(App\Providers\Request\Pages\PagesRequestProvider::class);
+$app->register(App\Providers\Request\RoleUser\RoleUserRequestProvider::class);
+$app->register(App\Providers\Request\User\UserRequestProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

@@ -31,11 +31,6 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('login', 'Auth\AuthController@login');
     $router->post('logout', 'Auth\AuthController@logout');
     $router->post('token/refresh', 'Auth\AuthController@refresh');
-    $router->group(['prefix' => 'users', 'middleware' => 'auth:api'], function () use ($router) {
-        $router->get('', 'UserController@getUsers');
-        $router->get('me', 'UserController@me');
-        $router->post('register', 'UserController@register');
-    });
     $router->group([
         'prefix' => 'pages',
         'middleware' => ['apikey', 'auth:api', 'checkrole:admin']
@@ -45,5 +40,26 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->post('', 'Page\PageController@store');
         $router->put('/{id}', 'Page\PageController@update');
         $router->delete('/{id}', 'Page\PageController@destroy');
+    });
+    $router->group([
+        'prefix' => 'role-user',
+        'middleware' => ['apikey', 'auth:api', 'checkrole:admin']
+    ], function () use ($router) {
+        $router->get('/', 'RoleUser\RoleUserController@index');
+        $router->get('/{id}', 'RoleUser\RoleUserController@show');
+        $router->post('', 'RoleUser\RoleUserController@store');
+        $router->put('/{id}', 'RoleUser\RoleUserController@update');
+        $router->delete('/{id}', 'RoleUser\RoleUserController@destroy');
+    });
+    $router->group([
+        'prefix' => 'user',
+        'middleware' => ['apikey', 'auth:api', 'checkrole:admin']
+    ], function () use ($router) {
+        $router->get('/', 'User\UserController@index');
+        $router->get('/{id}', 'User\UserController@show');
+        $router->post('', 'User\UserController@store');
+        $router->put('/{id}', 'User\UserController@update');
+        $router->delete('/{id}', 'User\UserController@destroy');
+        $router->get('/me', 'User\UserController@me');
     });
 });

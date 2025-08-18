@@ -9,6 +9,8 @@ use App\Filters\StringFilterStrategy;
 use App\Services\Repository\FilterFieldMapperInterface;
 use App\Services\Repository\Email\EmailFilterFieldMapper;
 use App\Services\Repository\Page\PageFilterFieldMapper;
+use App\Services\Repository\RoleUser\RoleUserFilterFieldMapper;
+use App\Services\Repository\User\UserFilterFieldMapper;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -35,6 +37,12 @@ class FilterStrategyProvider extends ServiceProvider
         });
         $this->app->bind(FilterFieldMapperInterface::class, function ($app) {
             return new EmailFilterFieldMapper();
+        });
+        $this->app->bind(FilterFieldMapperInterface::class, function ($app) {
+            return new RoleUserFilterFieldMapper();
+        });
+        $this->app->bind(FilterFieldMapperInterface::class, function ($app) {
+            return new UserFilterFieldMapper();
         });
     }
 }
